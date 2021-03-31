@@ -44,8 +44,10 @@ void display(int A[], int n) {
 }
 
 int main() {
-  int A[] = {11, 34, 9, 5, 16, 10};
+  int A[] =  {4,3,5,7,2,1,9,23,53,16,4,3,6,76,2,8,43,9};
+
   int n = sizeof(A) / sizeof(A[0]);
+  printf("%d", n);
 
   printf("Original Array:\n");
   display(A, n);
