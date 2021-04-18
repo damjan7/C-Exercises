@@ -9,7 +9,7 @@ struct node {
 };
 struct node* root;
 
-void createNodeList(int n){
+struct node createNodeList(int n){
 	struct node *tail, *tmp;
 	int num, i;
 	root = (struct node *)malloc(sizeof(struct node));
@@ -42,11 +42,13 @@ void createNodeList(int n){
 		}
 		
 	}
+	
+	return *root;
 }
 
-void displayList(){
+void displayList(struct node *head){
 	struct node *tmp;
-	tmp = root;
+	tmp = head;
 	while(tmp != NULL){
 		printf("%d - ", tmp->val);
 		tmp = tmp -> next;
@@ -54,41 +56,113 @@ void displayList(){
 	printf("\n");
 }
 
-void insertNode(int num, int pos){
-	int i;
-	struct node *tail, *tmp;
-	tail = (struct node*)malloc(sizeof(struct node));
-	if (tail == NULL){
-		printf("Memory could not be allocated!");
+int insertNode(int num, int pos, struct node *head){
+	if (head == NULL){
+		printf("Inserting node at pos %d is not possible (ERROR 1)!", pos);
+		return 0;
 	}
-	else{
-		tail -> val = num; //links the data part
-		tail -> next = NULL;
-		tmp = root;
-		for (i=2; i<=pos-1; ++i){
-			tmp = tmp -> next;
-
-		if (tmp == NULL){
-			break;
-		}
-
-		if (tmp != NULL){
-			tail -> next = tmp -> next; //links the address part of new node
-			tmp -> next = tail;
-		}
-		else{
-			printf("Insert is not possible at the given position. \n");
-			break;
-		}
-		}
+	struct node *tmp;
+	tmp = head;
+	
+	if (pos == 1){
+		printf("Inserted node at position %d!\n", pos);
+		struct node *new_node;
+		new_node = (struct node*)malloc(sizeof(struct node));
+		new_node -> val = num;
+		new_node -> next = head ->next;
+		head -> next = new_node;
+		return 0;
 	}
 	
+	
+	for (int i=2; i<=pos-1; ++i){
+		if (tmp -> next == NULL){
+			printf("Inserting node at pos %d is not possible (ERROR 2)!\n", pos);
+			return 0;
+		}
+		tmp = tmp -> next;
+	}
+
+	
+	
+	struct node *new_node;
+	new_node = (struct node*)malloc(sizeof(struct node));
+	new_node -> val = num;
+	new_node -> next = tmp -> next;
+	tmp -> next = new_node;
+	printf("Inserted node!\n");
+	return 0;
 }
 
 
+void deleteNode(int pos, struct node *head){
+	struct node *tmp;
+	struct node *prevNode;
+	tmp = (struct node*)malloc(sizeof(struct node));
+	prevNode = (struct node*)malloc(sizeof(struct node));
+	
+	tmp = head;
+	prevNode = head;
+	
+	if (pos == 1){
+		printf("%d\n", head->val);
+		head = head ->	next;
+		printf("%d\n", head->val);
+
+	}
+	else{
+		if (head == NULL){
+		printf("There are no nodes in the list\n");
+		}
+		else{
+			for (int i=2; i<=pos-1; ++i){
+				if (tmp -> next == NULL){
+					printf("No node at this position");
+				}
+			prevNode = tmp;
+			tmp = tmp -> next;
+			}
+		
+			printf("Deleted node at position %d\n", pos);
+			prevNode -> next = tmp -> next;
+			tmp -> next = NULL;
+			free(tmp);
+	}		
+	}
+}
+
+
+
+
+
 int main(){
-	createNodeList(4);
-	insertNode(999, 2);
-	displayList();
+	struct node n1; //create 3 nodes:
+	struct node n2;
+	struct node n3;
+	struct node *head; //root pointer, we will make it point to the first element
+	
+	//let's set the values of the nodes
+	n1.val = 45;
+	n2.val = 8;
+	n3.val = 32;
+	
+	//link them up, 3. element will be the root!
+	head = &n3;
+	n3.next = &n2; //then we set each nodes 'next' pointer to the address of the next element
+	n2.next = &n1;
+	n1.next = NULL; //so we know when the list ends
+	
+	//createNodeList(4);
+	displayList(head);
+	//insertNode(999, 1, head);
+	//displayList(head);
+	deleteNode(1, head);
+	displayList(head);
+
+	
+	//struct node root = createNodeList(4);
+	//insertNode(999, 1, &root);
+	//displayList(&root);
+	
 	return 0;
 }
