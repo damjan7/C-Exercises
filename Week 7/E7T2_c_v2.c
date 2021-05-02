@@ -56,6 +56,8 @@ void printStack(struct node **root_ptr){
 	}
 }
 
+
+
 int main(){
 	struct node **root_ptr = createStack();
 	push(root_ptr, 23);

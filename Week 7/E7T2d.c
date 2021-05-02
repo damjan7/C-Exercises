@@ -43,12 +43,10 @@ void printQueue(){
 
 
 int main(){
+
 	enqueue(72);
 	enqueue(89);
 	enqueue(66);
 	printQueue();
-	
-
-	
 	return 0;
 }

@@ -8,8 +8,8 @@ void swap(int *a, int *b) {
 
 void heapify(int A[], int i, int n) {
   int m = i;
-  int l = 2 * i;
-  int r = 2 * i + 1;
+  int l = 2 * i + 1;
+  int r = 2 * i + 2;
 
   if (l < n && A[l] > A[m])
     m = l;
@@ -33,7 +33,7 @@ void heapSort(int A[], int n) {
 
   for (int i = n - 1; i >= 0; i--) {
     swap(&A[0], &A[i]);
-    heapify(A, i, 0);
+    heapify(A, 0, i);
   }
 }
 
@@ -44,10 +44,8 @@ void display(int A[], int n) {
 }
 
 int main() {
-  int A[] =  {4,3,5,7,2,1,9,23,53,16,4,3,6,76,2,8,43,9};
-
+  int A[] = {11, 34, 9, 5, 16, 10};
   int n = sizeof(A) / sizeof(A[0]);
-  printf("%d", n);
 
   printf("Original Array:\n");
   display(A, n);
