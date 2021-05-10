@@ -1,0 +1,484 @@
+\documentclass[a4paper]{article}
+\usepackage{booktabs}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{wrapfig}
+\usepackage{multirow}
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage{ifthen}
+\usepackage{verbatim}
+\usepackage{array}
+\usepackage{tikz}
+\usetikzlibrary{decorations.pathreplacing}
+\usepackage{lastpage}
+\usepackage[normalem]{ulem}
+\usepackage{fancyhdr}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage[export]{adjustbox}
+\usepackage{tabularx}
+\usepackage{subfigure}
+\usepackage{algodat}
+\usepackage[boxed,vlined,titlenotnumbered]{algorithm2e}
+\usepackage{url}
+\usepackage[all]{xy}
+\usepackage{enumerate}
+\usetikzlibrary{calc,shapes.multipart,chains,arrows}
+\usepackage{pifont}
+
+
+\definecolor{grL}{rgb}{0.827451,0.827451,0.827451}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\nil}{\texttt{NIL}}
+\newcommand{\command}[1]{\texttt{#1}}
+\newcommand{\pseudo}[2]{\rule{#1ex}{0ex}{#2}}
+
+\renewcommand{\algorithmcfname}{Algo}
+\setlength{\algomargin}{5pt}
+\SetAlFnt{\small\texttt}
+%\SetAlFnt{\small\ttfamily}
+%\SetAlFnt{\small}
+%\SetArgSty{texttt}
+\SetKw{Break}{break}
+\SetKwInput{KwNotation}{Notation}
+\SetInd{0.2cm}{0.2cm}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\definecolor{mGreen}{rgb}{0,0.6,0}
+\definecolor{mGray}{rgb}{0.5,0.5,0.5}
+\definecolor{mPurple}{rgb}{0.58,0,0.82}
+\definecolor{backgroundColour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{CStyle}{
+    backgroundcolor=\color{backgroundColour},   
+    commentstyle=\color{mGreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{mGray},
+    stringstyle=\color{mPurple},
+    basicstyle=\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2,
+    language=C
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\def\checkmark{\tikz\fill[scale=0.4](0,.35) -- (.25,0) -- (1,.7) -- (.25,.15) -- cycle;} 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\cmark}{\ding{51}}%
+\newcommand{\xmark}{\ding{55}}%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\showsolutions}{true}
+\DeclarePairedDelimiter\ceil{\lceil}{\rceil}
+\DeclarePairedDelimiter\floor{\lfloor}{\rfloor}
+
+\newcommand{\solution}[1]{
+  \ifthenelse{\equal{\showsolutions}{true}}
+             {{\color{blue}{#1}}}
+             {\newpage}}
+
+\definecolor{grL}{rgb}{0.827451,0.827451,0.827451}
+
+\newcounter{taskNo}
+\setcounter{taskNo}{0}
+\newcommand{\showTaskNo}{\arabic{taskNo}}
+\newcommand{\incTaskNo}{\addtocounter{taskNo}{1}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+% Topics: Hash Tables & Hash Funcions
+\solutiontitle{10}{May 06, 2019}
+
+\section*{Hash Tables, Hash Functions\hfill}
+
+\paragraph{Task 1.} 
+The hash table $T[0\dots 10]$ stores integers and uses chaining to
+resolve conflicts. Illustrate the hash tables after the values 5,
+19, 27, 15, 30, 34, 26, 12, and 21 have been inserted (in that order)
+using the following hash functions:
+
+\begin{enumerate}
+  \item $h_1(k) = (k + 7)\mbox{ mod }11$ \quad \textbf{(Division Method)}
+  
+  \solution{
+
+\begin{figure}[!h]
+  \centering
+  \begin{minipage}[t]{0.2\textwidth}
+    \centering
+    \underline{\color{blue}{Hashtable ($h_1$)}}
+
+    \begin{tikzpicture}[grow=east,arrows=-,level distance=20mm]
+      \tikzstyle{every node}=[draw]
+      \node at (0mm,50mm) {0} child {node[rounded corners]{26}
+        child {node[rounded corners]{15}}};
+      \node at (0mm,45mm) {1} child {node[rounded corners]{27}
+      child {node[rounded corners]{5}}};
+      \node at (0mm,40mm) {2}; 
+      \node at (0mm,35mm) {3}; 
+      \node at (0mm,30mm) {4} child {node[rounded corners]{30}
+      child {node[rounded corners]{19}}}; 
+      \node at (0mm,25mm) {5};
+      \node at (0mm,20mm) {6} child {node[rounded corners]{21}};
+      \node at (0mm,15mm) {7};
+      \node at (0mm,10mm) {8} child {node[rounded corners]{12}
+      child {node[rounded corners]{34}}};
+      \node at (0mm, 5mm) {9};
+      \node at (0mm, 0mm) {10};
+    \end{tikzpicture}
+  \end{minipage}
+\end{figure}
+  }
+  \item $h_2(k) = \left \lfloor{8 (k \cdot 0.618\mbox{ mod }1)}\right \rfloor$ \quad \textbf{(Multiplication Method)}
+
+
+\solution{
+\begin{figure}[!h]
+  \centering
+  \begin{minipage}[t]{0.2\textwidth}
+    \centering
+    \underline{\color{blue}{Hashtable ($h_2$)}}
+
+    \begin{tikzpicture}[grow=east,arrows=-,level distance=20mm]
+      \tikzstyle{every node}=[draw]
+      \node at (0mm,50mm) {0} child {node[rounded corners]{26}
+      child {node[rounded corners]{34}
+      child {node[rounded corners]{5}}}};
+      \node at (0mm,45mm) {1};
+      \node at (0mm,40mm) {2} child {node[rounded corners]{15}};
+      \node at (0mm,35mm) {3} child {node[rounded corners]{12}};
+      \node at (0mm,30mm) {4} child {node[rounded corners]{30}};
+      \node at (0mm,25mm) {5} child {node[rounded corners]{27}
+      child {node[rounded corners]{19}}};
+      \node at (0mm,20mm) {6};
+      \node at (0mm,15mm) {7} child {node[rounded corners]{21}};
+      \node at (0mm,10mm) {8};
+      \node at (0mm, 5mm) {9};
+      \node at (0mm, 0mm) {10};
+    \end{tikzpicture}
+  \end{minipage}
+\end{figure}
+
+}
+\end{enumerate}
+\newpage
+
+\paragraph{Task 2.}
+The hash table T[0...10] may contain up to 11 elements and uses open
+addressing.  Draw an image of the hash table after the keys 5, 19, 27,
+15, 30, 34, 26, 12, and 21 have been inserted (in that order) using
+the following hash functions:
+\noindent For each table indicate the longest probe sequence with the
+corresponding key.
+\begin{enumerate}
+  \item $h_1(k, i) = (k + i)\mbox{ mod }11$
+  
+  \solution{
+  \textbf{Linear probing:} largest probe is 4 for key(26)\\
+
+  \begin{center}
+    \begin{tabular}{|m{1cm}||m{1cm}|@{}m{0cm}@{}}
+      \hline
+      \centering  \textbf{Entry} & \centering  \textbf{Value} & 
+      \\ [0.3cm]
+      \hline  
+      \centering 0 & \centering  & 
+      \\ [0.3cm]
+      \hline
+      \centering \solution{1} & \centering \solution{34} & 
+      \\ [0.3cm]
+      \hline
+      \centering \solution{2} & \centering  \solution{12}&
+      \\ [0.3cm]
+      \hline
+      \centering \solution{3} & \centering & 
+      \\ [0.3cm]
+      \hline
+       \centering \solution{4} & \centering \solution{15} & 
+      \\ [0.3cm]
+      \hline
+       \centering \solution{5} & \centering \solution{5}& 
+      \\ [0.3cm]
+      \hline
+       \centering \solution{6} & \centering \solution{27} & 
+      \\ [0.3cm]
+      \hline
+      \centering \solution{7} & \centering \solution{26} & 
+      \\ [0.3cm]
+      \hline
+      \centering \solution{8} & \centering \solution{19} & 
+      \\ [0.3cm]
+      \hline
+      \centering \solution{9} & \centering \solution{30} & 
+      \\ [0.3cm]
+      \hline
+      \centering \solution{10} & \centering \solution{21} & 
+      \\ [0.3cm]
+      \hline
+    \end{tabular} 
+  \end{center}}
+  \item $h_2(k, i) = (k\mbox{ mod }11 + i (k\mbox{ mod }7))\mbox{ mod }11$
+
+
+\solution{
+\textbf{Double hashing probing:} largest successful probe is 1 for insert of keys (27, 30, 26, 12)\\
+
+\begin{center}
+  \begin{tabular}{|m{1cm}||m{1cm}|@{}m{0cm}@{}}
+    \hline
+    % 34 & 12 & & 15 & 5 & 27 & 26 & 19 & 30 & 21
+    \centering  \textbf{Entry} & \centering  \textbf{Value} & 
+    \\ [0.3cm]
+    \hline  
+    \centering 0 & \centering  \solution{27}& 
+    \\ [0.3cm]
+    \hline
+    \centering \solution{1} & \centering \solution{34} & 
+    \\ [0.3cm]
+    \hline
+    \centering \solution{2} &  &
+    \\ [0.3cm]
+    \hline
+    \centering \solution{3} & & 
+    \\ [0.3cm]
+    \hline
+     \centering \solution{4} & \centering \solution{15} & 
+    \\ [0.3cm]
+    \hline
+     \centering \solution{5} & \centering \solution{5}& 
+    \\ [0.3cm]
+    \hline
+     \centering \solution{6} & \centering \solution{12} & 
+    \\ [0.3cm]
+    \hline
+    \centering \solution{7} & \centering  & 
+    \\ [0.3cm]
+    \hline
+    \centering \solution{8} & \centering \solution{19} & 
+    \\ [0.3cm]
+    \hline
+    \centering \solution{9} & \centering \solution{26}& 
+    \\ [0.3cm]
+    \hline
+    \centering \solution{10} & \centering \solution{30} & 
+    \\ [0.3cm]
+    \hline
+  \end{tabular} 
+\end{center}
+
+}
+
+\end{enumerate}
+
+
+
+\paragraph{Task 3.}
+Write a C-program where a hash table consisting of $m$ slots of positive integers is implemented.
+\textbf{Double hashing} should be used to resolve conflicts. The hash-function to be used
+is:
+\begin{align*}
+	h(k,i) &= (h_1(k) + i* h_2(k))\ mod\ m \\
+	h_1(k) &=  (k\ mod\ m) + 1 \\
+	h_2(k) &=   m^{\prime} - (k\ mod\ m^{\prime}) \\
+	m^{\prime} &= m-1 
+\end{align*}
+
+
+
+Your program should include the following:
+
+\begin{itemize}
+	\item The constant $m$ corresponding to
+      the size of the hash table.
+  
+  \solution{\lstinputlisting[language=c, firstline=4, lastline=4]{code/task3.c}}
+
+	
+	\item The function \textit{void init(int A[])} that fills
+	      all slots of the hash table $A$ with the value 0.
+  
+  \solution{\lstinputlisting[language=c, firstline=6, lastline=11]{code/task3.c}}      
+        
+	\item The hashing function \textit{int h(int k, int i)} that
+      receives the key $k$ and the probe number $i$ and 
+      returns the hashed key. 
+      
+  \solution{\lstinputlisting[language=c, firstline=13, lastline=18]{code/task3.c}}
+
+	\item The function \textit{void insert(int A[], int key)} that
+      inserts $key$ into the hash table $A$.
+    
+  \solution{\lstinputlisting[language=c, firstline=33, lastline=40]{code/task3.c}}
+
+	\item The function \textit{int search(int A[], int key)} that
+		  returns -1 if the requested $key$ was not found in the
+		  hash table $A$. Otherwise, it should return the index
+      of the requested hash key in the table.
+    
+  \solution{\lstinputlisting[language=c, firstline=20, lastline=31]{code/task3.c}}
+
+	\item The function \textit{void printHash(int A[])} that prints the table
+    size and all non-empty slots of the hash table $A$ accompanied with their index and the key.
+    
+  \solution{\lstinputlisting[language=c, firstline=42, lastline=50]{code/task3.c}}
+
+\begin{center}
+\begin{minipage}[t]{0.2\textwidth}
+\centering
+\underline{\textbf{Hashtable}}
+
+\begin{tikzpicture}[grow=east,arrows=-,level distance=20mm]
+\tikzstyle{every node}=[draw]
+\node at (0mm,50mm) {0} child {node[rounded corners]{1315}};
+\node at (0mm,45mm) {1} child {node[rounded corners]{2002}};
+\node at (0mm,40mm) {2} child {node[rounded corners]{2001}};
+\node at (0mm,35mm) {3} child {node[rounded corners]{2000}};
+\node at (0mm,30mm) {4};
+\node at (0mm,25mm) {5} child {node[rounded corners]{1313}};
+\node at (0mm,20mm) {6} child {node[rounded corners]{1314}};
+\end{tikzpicture}
+\end{minipage}
+\hspace{1.5cm}
+\begin{minipage}[t]{0.5\textwidth}
+\underline{\textbf{Output printHash}}		
+\begin{verbatim}
+Table size: 7
+i: 0    key: 1315
+i: 1    key: 2002
+i: 2    key: 2001
+i: 3    key: 2000
+i: 5    key: 1313
+i: 6    key: 1314
+\end{verbatim}
+\end{minipage}
+\end{center}
+
+\end{itemize}
+
+Mathematical functions available in the library \lstinline!math.h! can be used
+and don't need to be redefined. For testing purposes, use a table size
+of 7, add the values 1313, 1314, 1315, 2000, 2001 and 2002 and print your
+hashtable. Search for the values 2000, 10, 1314, 1313 and 337 and print the results.
+
+\paragraph{Task 4.}
+
+Write a C-program where a hash table consisting of $m$ slots of positive integers is implemented.
+\textbf{Chaining} should be used for collision resolution.
+ The hash function to be used is
+$h(k) = \lfloor m (kA \mbox{ mod }1) \rfloor$ where
+$A=(\sqrt{7}-1)/2$ and $kA \mbox{ mod } 1$ returns the
+fractional part of $kA$. i.e. kA - $\lfloor kA \rfloor$. Each slot is implemented as a linked
+list to resolve conflicts. A
+node of a hash table slot is defined as follows:
+
+\begin{center}
+  \begin{minipage}[t]{0.425\textwidth}
+    \begin{lstlisting}[language=C]
+struct element {
+  int val;
+  struct element *next;
+};
+\end{lstlisting}
+  \end{minipage}
+\end{center}
+
+The global hash table \texttt{H} is defined, as follows:
+
+\begin{center}
+  \begin{minipage} [t]{0.425\textwidth}
+    \begin{lstlisting}[language=C] 
+struct element* H[m];
+\end{lstlisting}
+  \end{minipage}
+\end{center}
+
+Implement the following functions:
+
+\begin{itemize}
+\item \textit{void init()}, which initializes hash table $H$.
+
+\solution{\lstinputlisting[language=c, firstline=14, lastline=18]{code/task4.c}}
+
+\item \textit{int h(int val)}, which gets a value $val$ as input and
+  returns the hashed key.
+
+\solution{\lstinputlisting[language=c, firstline=20, lastline=23]{code/task4.c}}
+
+\item \textit{struct element* search(int val)}, which returns NULL if
+  the requested $val$ is not found in hash table H.  Otherwise, it
+  returns a pointer to the node with the requested $val$.
+
+\solution{\lstinputlisting[language=c, firstline=34, lastline=43]{code/task4.c}}
+
+\item \textit{void insert(int val)}, which inserts value $val$ into
+  hash table $H$, if it does not already exist in the table (no
+  duplicates should exist).
+
+\solution{\lstinputlisting[language=c, firstline=25, lastline=32]{code/task4.c}}
+
+\item \textit{void printHash()}, which prints the values of all
+  non-empty slots of the hash table $H$.
+
+\solution{\lstinputlisting[language=c, firstline=45, lastline=61]{code/task4.c}}
+\end{itemize}
+
+\begin{center}
+\begin{minipage}[t]{0.2\textwidth}
+\centering
+\underline{\textbf{Hashtable}}
+
+\begin{tikzpicture}[grow=east,arrows=-,level distance=20mm]
+\tikzstyle{every node}=[draw]
+\node at (0mm,50mm) {0};
+\node at (0mm,45mm) {1};
+\node at (0mm,40mm) {2} child {node[rounded corners]{1342} child {node[rounded corners]{111}}};
+\node at (0mm,35mm) {3} child{node [rounded corners]{21231}};
+\node at (0mm,30mm) {4}; 
+\node at (0mm,25mm) {5};
+\node at (0mm,20mm) {6} child {node[rounded corners]{63} child {node[rounded corners]{5568}
+child {node[rounded corners]{1113}}}};
+\node at (0mm,15mm) {7} child {node[rounded corners]{10112}};
+\end{tikzpicture}
+\end{minipage}
+%
+\hspace{2.5cm}
+\begin{minipage}[t]{0.5\textwidth}
+\underline{\textbf{Output printHash}}		
+\begin{verbatim}
+Table size: 8
+i: 2     val: -> 1342 -> 111
+i: 3     val: -> 21231
+i: 6     val: -> 63 -> 5568 -> 1113
+i: 7     val: -> 10112
+\end{verbatim}
+\end{minipage}
+\end{center}
+
+Mathematical functions that are available via library
+\lstinline!math.h! can be used and don't need to be redefined.  For
+testing purposes, use a hash table of size 8, add the values 111,
+10112, 1113, 5568, 63, 1342 and 21231, and print your hash table.
+Search for values 1, 10112, 1113, 5568, 337 and print the results.
+
+\end{document}
+
+
