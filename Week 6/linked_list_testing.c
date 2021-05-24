@@ -19,6 +19,59 @@ void printList(struct node *root){
 	printf("\n");
 }
 
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     struct ListNode *next;
+ * };
+ */
+
+
+struct node* swapNodes(struct node* head, int k){
+    struct node *tmp = head;
+    if (head == NULL){ //empty list
+        return 0;
+    }
+    
+    int len = 0;
+    while(tmp != NULL){
+        len++;
+        tmp = tmp->next;
+    }
+    
+    struct node *n1,*prev1,*n2,*prev2;
+    tmp = head;
+    int idx=1;
+    n1 = tmp;
+    prev1 = NULL;
+    n2 = tmp;
+    prev2 = NULL;
+    
+    while(tmp != NULL){
+        if (idx==k){
+            n1 = tmp;
+        }
+        if(idx == len-k+1){
+            n2 = tmp;
+        }
+        
+        prev1 = tmp;
+        prev2 = tmp;
+        tmp = tmp->next;
+        ++idx;
+    }
+    
+    //finally, change pointers
+    struct node *tmp2 = n1->next;
+    n1->next = n2->next;
+    n2->next = tmp2;
+    prev1->next = n2;
+    prev2->next = n1;
+    
+    return head;
+}
+
 
 int main(){
 	struct node n1; //create 3 nodes:
@@ -45,6 +98,9 @@ int main(){
 	
 	printList(root);
 	
+	
+	swapNodes(root, 2);
+	printList(root);
 
 	
 	return 0;
