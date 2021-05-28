@@ -174,8 +174,36 @@ void DFS_SOL(struct Graph * graph, int start) {
 }
 
 
+bool isDAG(struct Graph* graph){
+	bool visited[graph->numVertices];
+	memset(visited, false, sizeof(graph->numVertices));
+	for (int i=0; i<graph->numVertices; ++i){
+		if (graph->adjLists != NULL && visited[i] == false){
+			visited[i] = true;
+			push(i);
+			while(!isempty()){
+				int cur = pop();
+				struct node* tmp = graph->adjLists[cur];
+				while(tmp != NULL){
+					if (visited[tmp->vertex] == true){
+						printf("The graph is not a DAG!\n");
+						return false;
+					}else{
+						push(tmp->vertex);
+						visited[tmp->vertex] = true;
+					}
+				}
+			}
+		}
+	}
+	printf("The graph is a DAG!\n");
+	return true;
+}
+
+
 int main(){
 	struct Graph *g1 = createGraph(5);
+	struct Graph *g2 = createGraph(3);
 	addEdge(g1, 0,4);
 	addEdge(g1, 0,2);
 	addEdge(g1, 1,2);
@@ -193,8 +221,9 @@ int main(){
 	}
 	printf("\n");
 	
-	DFS(g1, 0);
-	
+//	DFS(g1, 0);
+	isDAG(g1);
+	isDAG(g2); //empty graph, is a DAG by definition
 
 	
 	return 0;

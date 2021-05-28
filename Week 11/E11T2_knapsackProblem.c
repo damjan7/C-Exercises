@@ -68,7 +68,9 @@ int main(){
 	int w2[] = {2,3,4,5};
 	W=8;
 	n=4;
-	knapsack(W,n,w2,v2);
+	int res = knapsack(W,n,w2,v2);
+	
+	printf("res: %d", res);
 	
 	
 	return 0;

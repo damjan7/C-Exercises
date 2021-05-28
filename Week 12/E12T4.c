@@ -123,7 +123,6 @@ int sp_algo(int A[GRIDSIZE][GRIDSIZE], struct Point start, struct Point end){
 						visited[new_row][new_col] = 1;
 						q_enqueue(adjCell);		
 			}
-	
 		}
 	}
 }
@@ -142,8 +141,11 @@ int main() {
         { '.', '.', '#', '.', '.', '#', '.'},
         { '#', '.', '.', '.', '.', '.', '.'},
     };
-  struct Point start = {0, 0};
-  struct Point end = {2, 6};
+    
+  	struct Point start = {0, 0};
+  	struct Point end = {2, 6};
+  	
+  	struct Point end = {2,5};
 
   	int spDist = sp_algo(A, start, end);
   	printf("It takes a total of %d steps to reach the destination!\n", spDist);
